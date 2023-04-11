@@ -1,2 +1,2 @@
-# Tkinter_app
-Tkinter app
+# TK-invoice
+Invoice creation software.
