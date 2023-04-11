@@ -73,7 +73,7 @@ class Sidebar(ttk.Frame):
 
 
 class Settings(ttk.Frame):
-    """Settings window. Requrest master as parameter."""
+    """Settings window. Requiers master as parameter."""
 
     def __init__(self, master):
         super().__init__(master)
@@ -105,12 +105,15 @@ class Settings(ttk.Frame):
         # company id
         self.l_company_id = ttk.Label(self, text="Matični broj:", anchor="center")
         self.e_company_id = ttk.Entry(self)
-        # vat system user
-        self.l_company_vat = ttk.Label(self, text="U sistemu PDV-a:", anchor="center")
-        self.e_company_vat = ttk.Entry(self)
         # company vat no
         self.l_company_vat_no = ttk.Label(self, text="PIB:", anchor="center")
         self.e_company_vat_no = ttk.Entry(self)
+        # vat system user
+        self.l_company_vat = ttk.Label(self, text="U sistemu PDV-a:", anchor="center")
+        self.e_company_vat = ttk.Combobox(self, values=["Ne", "Da"])
+        # bank name
+        self.l_company_bank_name = ttk.Label(self, text="Banka:", anchor="center")
+        self.e_company_bank_name = ttk.Entry(self)
         # bank account number RSD
         self.l_company_bank_rsd = ttk.Label(
             self, text="Broj TR (RSD):", anchor="center"
@@ -121,9 +124,6 @@ class Settings(ttk.Frame):
             self, text="Broj TR (EUR):", anchor="center"
         )
         self.e_company_bank_eur = ttk.Entry(self)
-        # bank name
-        self.l_company_bank_name = ttk.Label(self, text="Banka:", anchor="center")
-        self.e_company_bank_name = ttk.Entry(self)
         # company logo
         self.l_company_logo = ttk.Label(self, text="Logo:", anchor="center")
         self.btn_company_logo = ttk.Button(self, text="Odaberi fajl..")
@@ -172,21 +172,21 @@ class Settings(ttk.Frame):
         # company ID
         self.l_company_id.grid(row=4, column=0, sticky="ew", pady=2)
         self.e_company_id.grid(row=4, column=1, sticky="ew", pady=2)
-        # vat system user
-        self.l_company_vat.grid(row=5, column=0, sticky="ew", pady=2)
-        self.e_company_vat.grid(row=5, column=1, sticky="ew", pady=2)
         # company vat no
-        self.l_company_vat_no.grid(row=6, column=0, sticky="ew", pady=2)
-        self.e_company_vat_no.grid(row=6, column=1, sticky="ew", pady=2)
-        # bank account number RSD
-        self.l_company_bank_rsd.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_company_bank_rsd.grid(row=7, column=1, sticky="ew", pady=2)
-        # bank account number EUR
-        self.l_company_bank_eur.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_company_bank_eur.grid(row=8, column=1, sticky="ew", pady=2)
+        self.l_company_vat_no.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_company_vat_no.grid(row=5, column=1, sticky="ew", pady=2)
+        # vat system user
+        self.l_company_vat.grid(row=6, column=0, sticky="ew", pady=2)
+        self.e_company_vat.grid(row=6, column=1, sticky="w", pady=2)
         # bank name
-        self.l_company_bank_name.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_company_bank_name.grid(row=9, column=1, sticky="ew", pady=2)
+        self.l_company_bank_name.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_company_bank_name.grid(row=7, column=1, sticky="ew", pady=2)
+        # bank account number RSD
+        self.l_company_bank_rsd.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_company_bank_rsd.grid(row=8, column=1, sticky="ew", pady=2)
+        # bank account number EUR
+        self.l_company_bank_eur.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_company_bank_eur.grid(row=9, column=1, sticky="ew", pady=2)
         # company logo
         self.l_company_logo.grid(row=10, column=0, sticky="ew", pady=2)
         self.btn_company_logo.grid(row=10, column=1, sticky="ew", pady=2)
