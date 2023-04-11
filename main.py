@@ -8,6 +8,7 @@ Date: Avgust, 2022
 
 import tkinter as tk
 from tkinter import ttk
+from tkcalendar import DateEntry as ttkDateEntry
 
 # from tkinter import filedialog as fd ## for logo filedialog
 
@@ -28,7 +29,8 @@ class App(tk.Tk):
         # widgets
         self.sidebar = Sidebar(self)
         # self.settings = Settings(self)
-        self.customers = Customers(self)
+        # self.customers = Customers(self)
+        self.invoices = ReviewInvoices(self)
 
         # define commands for buttons
         # self.sidebar.btn_quit.configure(command=lambda: self.settings.destroy())
@@ -71,6 +73,329 @@ class Sidebar(ttk.Frame):
         self.btn_customers.pack(fill="both")
         self.btn_settings.pack(fill="both")
         self.btn_quit.pack(fill="both")
+
+
+class Invoices(ttk.Frame):
+    pass
+
+
+class ReviewInvoices(ttk.Frame):
+    """Invoices window. Requiers master as parameter."""
+
+    def __init__(self, master):
+        super().__init__(master)
+        # sidebar occupies 200px of the window width
+        # self.place(relx=0.225, y=5, relwidth=0.75, relheight=0.95)
+        self.place(relx=0.225, y=5, relwidth=0.75)
+
+        # create widgets
+        self.create_widgets()
+        # place widgets in window
+        self.create_layout()
+
+    def create_widgets(self):
+        """Create widgets in Review Invoices window. Does not place them in the window. To place
+        widgets, call create_layout() method."""
+
+        # search for invoices by name, invoice id, date -disabled by default
+        self.l_search = ttk.Label(self, text="Pretraži:", anchor="center")
+        self.e_search = ttk.Entry(self)
+
+        # search results
+        self.search_results = ttk.Treeview(
+            self,
+            columns=["id", "name", "invoice_id", "invoice_date", "invoice_amount"],
+            show="headings",
+        )
+        self.search_results.heading("id", text="ID")
+        self.search_results.column("id", minwidth=0, width=40, stretch=False)
+        self.search_results.heading("name", text="Ime/naziv")
+        self.search_results.heading("invoice_id", text="Broj fakture")
+        self.search_results.heading("invoice_date", text="Datum fakture")
+        self.search_results.heading("invoice_amount", text="Iznos")
+
+        # buttons
+        self.btn_invoice_edit = ttk.Button(self, text="Prikaži ili izmeni")
+        self.btn_invoice_delete = ttk.Button(self, text="Obriši")
+
+        # invoice id
+        self.l_invoice_id = ttk.Label(self, text="Broj fakture:", anchor="center")
+        self.e_invoice_id = ttk.Entry(self)
+
+        # check last used invoice id
+        self.l_invoice_id_check = ttk.Label(
+            self, text="Proveri poslednje korišćeni broj fakture", anchor="center"
+        )
+
+        # invoice dates
+        self.l_invoice_date = ttk.Label(self, text="Datum fakture:", anchor="center")
+        self.e_invoice_date = ttkDateEntry(self, date_pattern="dd/MM/yyyy")
+
+        # date of purchase
+        self.l_invoice_date_of_purchase = ttk.Label(
+            self, text="Datum prometa:", anchor="center"
+        )
+        self.e_invoice_date_of_purchase = ttkDateEntry(self, date_pattern="dd/MM/yyyy")
+
+        # place of purchase
+        self.l_invoice_place_of_purchase = ttk.Label(
+            self, text="Mesto prometa:", anchor="center"
+        )
+        self.e_invoice_place_of_purchase = ttk.Entry(self)
+
+        # customer
+        self.l_customer_name = ttk.Label(self, text="Komitent:", anchor="center")
+        self.e_customer_name = ttk.Entry(self)
+
+        # customer address
+        self.l_customer_address = ttk.Label(self, text="Adresa:", anchor="center")
+        self.e_customer_address = ttk.Entry(self)
+
+        # customer city
+        self.l_customer_city = ttk.Label(self, text="Grad:", anchor="center")
+        self.e_customer_city = ttk.Entry(self)
+
+        # customer id no
+        self.l_customer_id_no = ttk.Label(self, text="MB:", anchor="center")
+        self.e_customer_id_no = ttk.Entry(self)
+
+        # customer tax id
+        self.l_customer_tax_id = ttk.Label(self, text="PIB:", anchor="center")
+        self.e_customer_tax_id = ttk.Entry(self)
+
+        # customer email
+        self.l_customer_email = ttk.Label(self, text="E-mail:", anchor="center")
+        self.e_customer_email = ttk.Entry(self)
+
+        # type of service
+        self.l_type_of_service = ttk.Label(self, text="Vrsta usluge:", anchor="center")
+        self.e_type_of_service = ttk.Entry(self)
+
+        # unit of service
+        self.l_unit_of_service = ttk.Label(self, text="Jedinica:", anchor="center")
+        self.e_unit_of_service = ttk.Entry(self)
+
+        # quantity
+        self.l_quantity_of_service = ttk.Label(self, text="Količina:", anchor="center")
+        self.e_quantity_of_service = ttk.Entry(self)
+
+        # price without VAT
+        self.l_price_of_service = ttk.Label(
+            self, text="Cena bez PDV-a:", anchor="center"
+        )
+        self.e_price_of_service = ttk.Entry(self)
+
+        # add service
+        self.btn_add_service = ttk.Button(self, text="Dodaj stavku")
+
+        # list of services
+        self.list_of_services = ttk.Treeview(
+            self,
+            columns=["type_of_service", "unit", "quantity", "price", "vat", "total"],
+            show="headings",
+        )
+        self.list_of_services.heading("type_of_service", text="Vrsta usluge")
+        self.list_of_services.heading("unit", text="Jedinica")
+        self.list_of_services.heading("quantity", text="Količina")
+        self.list_of_services.heading("price", text="Cena bez PDVa")
+        self.list_of_services.heading("vat", text="PDV")
+        self.list_of_services.heading("total", text="Ukupno")
+
+        # total amount of services
+        self.l_total_amount = ttk.Label(self, text="Ukupno:", anchor="center")
+        self.l_total_amount_var = ttk.Label(
+            self, text="999.99:", anchor="center", style="bold"
+        )
+
+        # description
+        self.l_desc = ttk.Label(self, text="Komentar/opis usluge:", anchor="center")
+        self.e_desc = ttk.Entry(self)
+
+        # buttons save and print
+        self.btn_invoice_save_db = ttk.Button(self, text="Sačuvaj fakturu (baza)")
+        self.btn_invoice_save_pdf = ttk.Button(self, text="Sačuvaj fakturu (PDF)")
+        self.btn_add_service = ttk.Button(self, text="Štampaj fakturu")
+
+    def create_layout(self):
+        """Places created widgets in the window (from the create_widgets() method)."""
+
+        # 2 columns
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=10)
+        self.columnconfigure(2, weight=10)
+        # 14 rows
+        self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
+        self.rowconfigure(3, weight=1)
+        self.rowconfigure(4, weight=1)
+        self.rowconfigure(5, weight=1)
+        self.rowconfigure(6, weight=1)
+        self.rowconfigure(7, weight=1)
+        self.rowconfigure(8, weight=1)
+        self.rowconfigure(9, weight=1)
+        self.rowconfigure(10, weight=1)
+        self.rowconfigure(11, weight=1)
+        self.rowconfigure(12, weight=1)
+        self.rowconfigure(13, weight=1)
+
+        # GRID
+        # button
+        self.e_invoice_date.grid(row=0, column=0, sticky="ew", pady=10)
+        # search
+        self.l_search.grid(row=1, column=0, sticky="ew", pady=15)
+        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=15)
+        # search results
+        self.search_results.grid(row=2, column=0, columnspan=3, sticky="ew", pady=2)
+        # edit button
+        # self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=15)
+        # customer type
+        self.l_customer_name.grid(row=4, column=0, sticky="ew", pady=2)
+        self.e_customer_name.grid(row=4, column=1, columnspan=2, sticky="ew", pady=2)
+        # customer address
+        self.l_customer_address.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_customer_address.grid(row=5, column=1, columnspan=2, sticky="ew", pady=2)
+        # city
+        self.l_customer_city.grid(row=6, column=0, sticky="ew", pady=2)
+        self.e_customer_city.grid(row=6, column=1, columnspan=2, sticky="ew", pady=2)
+        # email
+        self.l_customer_email.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_customer_email.grid(row=7, column=1, columnspan=2, sticky="ew", pady=2)
+        # ID
+        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_customer_id_no.grid(row=8, column=1, columnspan=2, sticky="ew", pady=2)
+        # tax id
+        self.l_customer_tax_id.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_customer_tax_id.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
+        # save and delete
+        # self.btn_customer_save.grid(row=10, column=1, sticky="", pady=10)
+        # self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=10)
+        # save or delete label
+        # self.l_customer_save_or_delete.grid(
+        #    row=11, column=1, columnspan=2, sticky="ew", pady=10
+        # )
+
+
+class Customers(ttk.Frame):
+    """Customers window. Requiers master as parameter."""
+
+    def __init__(self, master):
+        super().__init__(master)
+        # sidebar occupies 200px of the window width
+        # self.place(relx=0.225, y=5, relwidth=0.75, relheight=0.95)
+        self.place(relx=0.225, y=5, relwidth=0.75)
+
+        # create widgets
+        self.create_widgets()
+        # place widgets in window
+        self.create_layout()
+
+    def create_widgets(self):
+        """Create sidebar widgets. Does not place them in the window. To place
+        widgets, call create_layout() method."""
+
+        # buttons - 'new customer' and 'edit customer'
+        self.btn_customer_new = ttk.Button(self, text="Unos novog komitenta")
+        self.btn_customer_edit = ttk.Button(self, text="Izmeni/obriši komitenta")
+        # search -disabled by default until edit is pressed
+        self.l_search = ttk.Label(self, text="Pretraži:", anchor="center")
+        self.e_search = ttk.Entry(self)
+        # search results
+        self.search_results = ttk.Treeview(
+            self, columns=["id", "name"], show="headings"
+        )
+        self.search_results.heading("id", text="ID")
+        self.search_results.column("id", minwidth=0, width=40, stretch=False)
+        self.search_results.heading("name", text="Ime/naziv")
+        # type of customer
+        self.l_customer_type = ttk.Label(self, text="Vrsta lica", anchor="center")
+        self.combo_customer_type = ttk.Combobox(
+            self, values=["Fizičko lice", "Pravno lice"]
+        )
+        # customer name
+        self.l_customer_name = ttk.Label(self, text="Ime/naziv:", anchor="center")
+        self.e_customer_name = ttk.Entry(self)
+        # customer address
+        self.l_customer_address = ttk.Label(self, text="Adresa:", anchor="center")
+        self.e_customer_address = ttk.Entry(self)
+        # city
+        self.l_customer_city = ttk.Label(self, text="Grad:", anchor="center")
+        self.e_customer_city = ttk.Entry(self)
+        # email
+        self.l_customer_email = ttk.Label(self, text="E-mail:", anchor="center")
+        self.e_customer_email = ttk.Entry(self)
+        # ID
+        self.l_customer_id_no = ttk.Label(self, text="Matični broj:", anchor="center")
+        self.e_customer_id_no = ttk.Entry(self)
+        # Tax ID
+        self.l_customer_tax_id = ttk.Label(self, text="PIB:", anchor="center")
+        self.e_customer_tax_id = ttk.Entry(self)
+        # save and delete
+        self.btn_customer_save = ttk.Button(self, text="Sačuvaj")
+        self.btn_customer_delete = ttk.Button(self, text="Obriši")
+        # save and delete labels
+        self.l_customer_save_or_delete = ttk.Label(
+            self, text="uspesno sačuvano", anchor="center"
+        )
+
+    def create_layout(self):
+        """Places created widgets in the window (from the create_widgets() method)."""
+
+        # 2 columns
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=10)
+        self.columnconfigure(2, weight=10)
+        # 14 rows
+        self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
+        self.rowconfigure(3, weight=1)
+        self.rowconfigure(4, weight=1)
+        self.rowconfigure(5, weight=1)
+        self.rowconfigure(6, weight=1)
+        self.rowconfigure(7, weight=1)
+        self.rowconfigure(8, weight=1)
+        self.rowconfigure(9, weight=1)
+        self.rowconfigure(10, weight=1)
+        self.rowconfigure(11, weight=1)
+        self.rowconfigure(12, weight=1)
+        self.rowconfigure(13, weight=1)
+
+        # GRID
+        # button
+        self.btn_customer_new.grid(row=0, column=0, sticky="ew", pady=10)
+        # search
+        self.l_search.grid(row=1, column=0, sticky="ew", pady=15)
+        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=15)
+        # search results
+        self.search_results.grid(row=2, column=0, columnspan=3, sticky="ew", pady=2)
+        # edit button
+        self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=15)
+        # customer type
+        self.l_customer_name.grid(row=4, column=0, sticky="ew", pady=2)
+        self.e_customer_name.grid(row=4, column=1, columnspan=2, sticky="ew", pady=2)
+        # customer address
+        self.l_customer_address.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_customer_address.grid(row=5, column=1, columnspan=2, sticky="ew", pady=2)
+        # city
+        self.l_customer_city.grid(row=6, column=0, sticky="ew", pady=2)
+        self.e_customer_city.grid(row=6, column=1, columnspan=2, sticky="ew", pady=2)
+        # email
+        self.l_customer_email.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_customer_email.grid(row=7, column=1, columnspan=2, sticky="ew", pady=2)
+        # ID
+        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_customer_id_no.grid(row=8, column=1, columnspan=2, sticky="ew", pady=2)
+        # tax id
+        self.l_customer_tax_id.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_customer_tax_id.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
+        # save and delete
+        self.btn_customer_save.grid(row=10, column=1, sticky="", pady=10)
+        self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=10)
+        # save or delete label
+        self.l_customer_save_or_delete.grid(
+            row=11, column=1, columnspan=2, sticky="ew", pady=10
+        )
 
 
 class Settings(ttk.Frame):
@@ -195,128 +520,6 @@ class Settings(ttk.Frame):
         # save button
         self.btn_save_settings.grid(row=12, column=1, pady=10)
         self.l_save_settings.grid(row=13, column=1)
-
-
-class Customers(ttk.Frame):
-    """Customers window. Requiers master as parameter."""
-
-    def __init__(self, master):
-        super().__init__(master)
-        # sidebar occupies 200px of the window width
-        # self.place(relx=0.225, y=5, relwidth=0.75, relheight=0.95)
-        self.place(relx=0.225, y=5, relwidth=0.75)
-
-        # create widgets
-        self.create_widgets()
-        # place widgets in window
-        self.create_layout()
-
-    def create_widgets(self):
-        """Create sidebar widgets. Does not place them in the window. To place
-        widgets, call create_layout() method."""
-
-        # buttons - 'new customer' and 'edit customer'
-        self.btn_customer_new = ttk.Button(self, text="Unos novog komitenta")
-        self.btn_customer_edit = ttk.Button(self, text="Izmeni/obriši komitenta")
-        # search -disabled by default until edit is pressed
-        self.l_search = ttk.Label(self, text="Pretraži:", anchor="center")
-        self.e_search = ttk.Entry(self)
-        # search results
-        self.search_results = ttk.Treeview(
-            self, columns=["id", "name"], show="headings"
-        )
-        self.search_results.heading("id", text="ID")
-        self.search_results.column("id", minwidth=0, width=40, stretch=False)
-        self.search_results.heading("name", text="Ime/naziv")
-        # type of customer
-        self.l_customer_type = ttk.Label(self, text="Vrsta lica", anchor="center")
-        self.combo_customer_type = ttk.Combobox(
-            self, values=["Fizičko lice", "Pravno lice"]
-        )
-        # customer name
-        self.l_customer_name = ttk.Label(self, text="Ime/naziv:", anchor="center")
-        self.e_customer_name = ttk.Entry(self)
-        # customer address
-        self.l_customer_address = ttk.Label(self, text="Adresa:", anchor="center")
-        self.e_customer_address = ttk.Entry(self)
-        # city
-        self.l_customer_city = ttk.Label(self, text="Grad:", anchor="center")
-        self.e_customer_city = ttk.Entry(self)
-        # email
-        self.l_customer_email = ttk.Label(self, text="E-mail:", anchor="center")
-        self.e_customer_email = ttk.Entry(self)
-        # ID
-        self.l_customer_id_no = ttk.Label(self, text="Matični broj:", anchor="center")
-        self.e_customer_id_no = ttk.Entry(self)
-        # Tax ID
-        self.l_customer_tax_id = ttk.Label(self, text="PIB:", anchor="center")
-        self.e_customer_tax_id = ttk.Entry(self)
-        # save and delete
-        self.btn_customer_save = ttk.Button(self, text="Sačuvaj")
-        self.btn_customer_delete = ttk.Button(self, text="Obriši")
-        # save and delete labels
-        self.l_customer_save_or_delete = ttk.Label(
-            self, text="uspesno sačuvano", anchor="center"
-        )
-
-    def create_layout(self):
-        """Places created widgets in the window (from the create_widgets() method)."""
-
-        # 2 columns
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=10)
-        self.columnconfigure(2, weight=10)
-        # 14 rows
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
-        self.rowconfigure(2, weight=1)
-        self.rowconfigure(3, weight=1)
-        self.rowconfigure(4, weight=1)
-        self.rowconfigure(5, weight=1)
-        self.rowconfigure(6, weight=1)
-        self.rowconfigure(7, weight=1)
-        self.rowconfigure(8, weight=1)
-        self.rowconfigure(9, weight=1)
-        self.rowconfigure(10, weight=1)
-        self.rowconfigure(11, weight=1)
-        self.rowconfigure(12, weight=1)
-        self.rowconfigure(13, weight=1)
-
-        # GRID
-        # button
-        self.btn_customer_new.grid(row=0, column=0, sticky="ew", pady=10)
-        # search
-        self.l_search.grid(row=1, column=0, sticky="ew", pady=15)
-        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=15)
-        # search results
-        self.search_results.grid(row=2, column=0, columnspan=3, sticky="ew", pady=2)
-        # edit button
-        self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=15)
-        # customer type
-        self.l_customer_name.grid(row=4, column=0, sticky="ew", pady=2)
-        self.e_customer_name.grid(row=4, column=1, columnspan=2, sticky="ew", pady=2)
-        # customer address
-        self.l_customer_address.grid(row=5, column=0, sticky="ew", pady=2)
-        self.e_customer_address.grid(row=5, column=1, columnspan=2, sticky="ew", pady=2)
-        # city
-        self.l_customer_city.grid(row=6, column=0, sticky="ew", pady=2)
-        self.e_customer_city.grid(row=6, column=1, columnspan=2, sticky="ew", pady=2)
-        # email
-        self.l_customer_email.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_customer_email.grid(row=7, column=1, columnspan=2, sticky="ew", pady=2)
-        # ID
-        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_customer_id_no.grid(row=8, column=1, columnspan=2, sticky="ew", pady=2)
-        # tax id
-        self.l_customer_tax_id.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_customer_tax_id.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
-        # save and delete
-        self.btn_customer_save.grid(row=10, column=1, sticky="", pady=10)
-        self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=10)
-        # save or delete label
-        self.l_customer_save_or_delete.grid(
-            row=11, column=1, columnspan=2, sticky="ew", pady=10
-        )
 
 
 if __name__ == "__main__":
