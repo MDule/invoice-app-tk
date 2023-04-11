@@ -80,7 +80,7 @@ class Invoices(ttk.Frame):
 
 
 class ReviewInvoices(ttk.Frame):
-    """Invoices window. Requiers master as parameter."""
+    """Review invoices window. Requiers master as parameter."""
 
     def __init__(self, master):
         super().__init__(master)
@@ -109,10 +109,19 @@ class ReviewInvoices(ttk.Frame):
         )
         self.search_results.heading("id", text="ID")
         self.search_results.column("id", minwidth=0, width=40, stretch=False)
-        self.search_results.heading("name", text="Ime/naziv")
-        self.search_results.heading("invoice_id", text="Broj fakture")
-        self.search_results.heading("invoice_date", text="Datum fakture")
-        self.search_results.heading("invoice_amount", text="Iznos")
+
+        self.search_results.heading("name", text="IME/NAZIV")
+
+        self.search_results.heading("invoice_id", text="BROJ FAKTURE")
+        self.search_results.column("invoice_id", minwidth=0, width=120, stretch=False)
+
+        self.search_results.heading("invoice_date", text="DATUM FAKTURE")
+        self.search_results.column("invoice_date", minwidth=0, width=120, stretch=False)
+
+        self.search_results.heading("invoice_amount", text="IZNOS")
+        self.search_results.column(
+            "invoice_amount", minwidth=0, width=120, stretch=False
+        )
 
         # buttons
         self.btn_invoice_edit = ttk.Button(self, text="Prikaži ili izmeni")
@@ -124,7 +133,7 @@ class ReviewInvoices(ttk.Frame):
 
         # check last used invoice id
         self.l_invoice_id_check = ttk.Label(
-            self, text="Proveri poslednje korišćeni broj fakture", anchor="center"
+            self, text="Poslednji broj fakture", anchor="center"
         )
 
         # invoice dates
@@ -191,89 +200,153 @@ class ReviewInvoices(ttk.Frame):
         # list of services
         self.list_of_services = ttk.Treeview(
             self,
-            columns=["type_of_service", "unit", "quantity", "price", "vat", "total"],
+            columns=[
+                "no",
+                "type_of_service",
+                "unit",
+                "quantity",
+                "price",
+                "vat",
+                "total",
+            ],
             show="headings",
         )
-        self.list_of_services.heading("type_of_service", text="Vrsta usluge")
-        self.list_of_services.heading("unit", text="Jedinica")
-        self.list_of_services.heading("quantity", text="Količina")
-        self.list_of_services.heading("price", text="Cena bez PDVa")
+        self.list_of_services.heading("no", text="R.br.")
+        self.list_of_services.column("no", minwidth=0, width=35, stretch=False)
+
+        self.list_of_services.heading("type_of_service", text="VRSTA USLUGE")
+
+        self.list_of_services.heading("unit", text="JEDINICA")
+        self.list_of_services.column("unit", minwidth=0, width=65, stretch=False)
+
+        self.list_of_services.heading("quantity", text="KOLIČINA")
+        self.list_of_services.column("quantity", minwidth=0, width=65, stretch=False)
+
+        self.list_of_services.heading("price", text="CENA BEZ PDVa")
+        self.list_of_services.column("price", minwidth=0, width=100, stretch=False)
+
         self.list_of_services.heading("vat", text="PDV")
-        self.list_of_services.heading("total", text="Ukupno")
+        self.list_of_services.column("vat", minwidth=0, width=80, stretch=False)
+
+        self.list_of_services.heading("total", text="UKUPNO")
+        self.list_of_services.column("total", minwidth=0, width=120, stretch=False)
 
         # total amount of services
-        self.l_total_amount = ttk.Label(self, text="Ukupno:", anchor="center")
-        self.l_total_amount_var = ttk.Label(
-            self, text="999.99:", anchor="center", style="bold"
-        )
+        self.l_total_amount = ttk.Label(self, text="UKUPNO:", anchor="center")
+        self.l_total_amount_var = ttk.Label(self, text="999.99", anchor="center")
 
         # description
         self.l_desc = ttk.Label(self, text="Komentar/opis usluge:", anchor="center")
-        self.e_desc = ttk.Entry(self)
+        self.e_desc = tk.Text(self, height=4, font=("Segoe UI", 9))
 
         # buttons save and print
         self.btn_invoice_save_db = ttk.Button(self, text="Sačuvaj fakturu (baza)")
         self.btn_invoice_save_pdf = ttk.Button(self, text="Sačuvaj fakturu (PDF)")
-        self.btn_add_service = ttk.Button(self, text="Štampaj fakturu")
+        self.btn_invoice_print = ttk.Button(self, text="Štampaj fakturu")
 
     def create_layout(self):
         """Places created widgets in the window (from the create_widgets() method)."""
 
-        # 2 columns
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=10)
-        self.columnconfigure(2, weight=10)
-        # 14 rows
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
-        self.rowconfigure(2, weight=1)
-        self.rowconfigure(3, weight=1)
-        self.rowconfigure(4, weight=1)
-        self.rowconfigure(5, weight=1)
-        self.rowconfigure(6, weight=1)
-        self.rowconfigure(7, weight=1)
-        self.rowconfigure(8, weight=1)
-        self.rowconfigure(9, weight=1)
-        self.rowconfigure(10, weight=1)
-        self.rowconfigure(11, weight=1)
-        self.rowconfigure(12, weight=1)
-        self.rowconfigure(13, weight=1)
+        # 6 columns
+        for _ in range(6):
+            self.columnconfigure(_, weight=1)
+
+        # 16 rows
+        for _ in range(16):
+            self.rowconfigure(_, weight=1)
+            print(_)
 
         # GRID
-        # button
-        self.e_invoice_date.grid(row=0, column=0, sticky="ew", pady=10)
-        # search
-        self.l_search.grid(row=1, column=0, sticky="ew", pady=15)
-        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=15)
+        # search entry
+        self.l_search.grid(row=0, column=0, sticky="ew", pady=5)
+        self.e_search.grid(row=0, column=1, columnspan=5, sticky="ew", pady=5)
+
         # search results
-        self.search_results.grid(row=2, column=0, columnspan=3, sticky="ew", pady=2)
-        # edit button
-        # self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=15)
-        # customer type
-        self.l_customer_name.grid(row=4, column=0, sticky="ew", pady=2)
-        self.e_customer_name.grid(row=4, column=1, columnspan=2, sticky="ew", pady=2)
+        self.search_results.grid(row=1, column=0, columnspan=6, sticky="ew", pady=10)
+
+        # buttons - edit or delete
+        self.btn_invoice_edit.grid(row=2, column=4, sticky="ew", pady=15)
+        self.btn_invoice_delete.grid(row=2, column=5, sticky="ew", pady=15)
+
+        # invoice id
+        self.l_invoice_id.grid(row=3, column=0, sticky="", pady=2)
+        self.e_invoice_id.grid(row=3, column=1, sticky="", pady=2)
+        self.l_invoice_id_check.grid(
+            row=3, column=2, columnspan=4, sticky="w", pady=2, ipadx=5
+        )
+
+        # invoice date
+        self.l_invoice_date.grid(row=4, column=0, sticky="ew", pady=2)
+        self.e_invoice_date.grid(row=4, column=1, sticky="ew", pady=2)
+
+        # date of purchase
+        self.l_invoice_date_of_purchase.grid(row=4, column=2, sticky="ew", pady=2)
+        self.e_invoice_date_of_purchase.grid(row=4, column=3, sticky="ew", pady=2)
+
+        # place of purchase
+        self.l_invoice_place_of_purchase.grid(row=4, column=4, sticky="ew", pady=2)
+        self.e_invoice_place_of_purchase.grid(
+            row=4, column=5, columnspan=2, sticky="ew", pady=2
+        )
+
+        # customer
+        self.l_customer_name.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_customer_name.grid(row=5, column=1, columnspan=5, sticky="ew", pady=2)
+
         # customer address
-        self.l_customer_address.grid(row=5, column=0, sticky="ew", pady=2)
-        self.e_customer_address.grid(row=5, column=1, columnspan=2, sticky="ew", pady=2)
-        # city
-        self.l_customer_city.grid(row=6, column=0, sticky="ew", pady=2)
-        self.e_customer_city.grid(row=6, column=1, columnspan=2, sticky="ew", pady=2)
-        # email
-        self.l_customer_email.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_customer_email.grid(row=7, column=1, columnspan=2, sticky="ew", pady=2)
-        # ID
-        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_customer_id_no.grid(row=8, column=1, columnspan=2, sticky="ew", pady=2)
-        # tax id
-        self.l_customer_tax_id.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_customer_tax_id.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
-        # save and delete
-        # self.btn_customer_save.grid(row=10, column=1, sticky="", pady=10)
-        # self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=10)
-        # save or delete label
-        # self.l_customer_save_or_delete.grid(
-        #    row=11, column=1, columnspan=2, sticky="ew", pady=10
-        # )
+        self.l_customer_address.grid(row=6, column=0, sticky="ew", pady=2)
+        self.e_customer_address.grid(row=6, column=1, columnspan=3, sticky="ew", pady=2)
+
+        # customer city
+        self.l_customer_city.grid(row=6, column=4, sticky="ew", pady=2)
+        self.e_customer_city.grid(row=6, column=5, sticky="ew", pady=2)
+
+        # customer id no
+        self.l_customer_id_no.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_customer_id_no.grid(row=7, column=1, sticky="ew", pady=2)
+
+        # customer tax id
+        self.l_customer_tax_id.grid(row=7, column=2, sticky="ew", pady=2)
+        self.e_customer_tax_id.grid(row=7, column=3, sticky="ew", pady=2)
+
+        # customer email
+        self.l_customer_email.grid(row=7, column=4, sticky="ew", pady=2)
+        self.e_customer_email.grid(row=7, column=5, sticky="ew", pady=2)
+
+        # type of service
+        self.l_type_of_service.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_type_of_service.grid(row=8, column=1, columnspan=5, sticky="ew", pady=2)
+
+        # unit of service
+        self.l_unit_of_service.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_unit_of_service.grid(row=9, column=1, sticky="ew", pady=2)
+
+        # quantity
+        self.l_quantity_of_service.grid(row=9, column=2, sticky="ew", pady=2)
+        self.e_quantity_of_service.grid(row=9, column=3, sticky="ew", pady=2)
+
+        # price without VAT
+        self.l_price_of_service.grid(row=9, column=4, sticky="ew", pady=2)
+        self.e_price_of_service.grid(row=9, column=5, sticky="ew", pady=2)
+
+        # add service button
+        self.btn_add_service.grid(row=10, column=5, sticky="ew", pady=2)
+
+        # list of service
+        self.list_of_services.grid(row=11, column=0, columnspan=6, sticky="ew", pady=20)
+
+        # total amount of services
+        self.l_total_amount.grid(row=12, column=4, sticky="ew", pady=2)
+        self.l_total_amount_var.grid(row=12, column=5, sticky="ew", pady=2)
+
+        # description
+        self.l_desc.grid(row=13, column=0, sticky="ew", pady=2)
+        self.e_desc.grid(row=14, column=0, columnspan=6, sticky="ew", pady=2)
+
+        # buttons save and print
+        self.btn_invoice_save_db.grid(row=15, column=3, sticky="ew", pady=10)
+        self.btn_invoice_save_pdf.grid(row=15, column=4, sticky="ew", pady=10)
+        self.btn_invoice_print.grid(row=15, column=5, sticky="ew", pady=10)
 
 
 class Customers(ttk.Frame):
@@ -525,4 +598,4 @@ class Settings(ttk.Frame):
 if __name__ == "__main__":
     # App("title", (960, 720))
     # App("title", (960, 300))
-    App("Invoice Creator v0.1", (600, 650))
+    App("Invoice Creator v0.1", (960, 1015))
