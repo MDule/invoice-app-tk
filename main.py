@@ -557,15 +557,15 @@ class ReviewInvoices(ttk.Frame):
 
         # GRID
         # search entry
-        self.l_search.grid(row=0, column=0, sticky="ew", pady=5)
-        self.e_search.grid(row=0, column=1, columnspan=5, sticky="ew", pady=5)
+        self.l_search.grid(row=0, column=0, sticky="ew", pady=(5, 3))
+        self.e_search.grid(row=0, column=1, columnspan=5, sticky="ew", pady=(5, 3))
 
         # search results
-        self.search_results.grid(row=1, column=0, columnspan=6, sticky="ew", pady=10)
+        self.search_results.grid(row=1, column=0, columnspan=6, sticky="ew")
 
         # buttons - edit or delete
-        self.btn_invoice_edit.grid(row=2, column=4, sticky="ew", pady=15)
-        self.btn_invoice_delete.grid(row=2, column=5, sticky="ew", pady=15)
+        self.btn_invoice_edit.grid(row=2, column=4, sticky="ew", pady=(3, 15))
+        self.btn_invoice_delete.grid(row=2, column=5, sticky="ew", pady=(3, 15))
 
         # invoice id
         self.l_invoice_id.grid(row=3, column=0, sticky="", pady=2)
@@ -589,8 +589,10 @@ class ReviewInvoices(ttk.Frame):
         )
 
         # customer
-        self.l_customer_name.grid(row=5, column=0, sticky="ew", pady=2)
-        self.e_customer_name.grid(row=5, column=1, columnspan=5, sticky="ew", pady=2)
+        self.l_customer_name.grid(row=5, column=0, sticky="ew", pady=(20, 2))
+        self.e_customer_name.grid(
+            row=5, column=1, columnspan=5, sticky="ew", pady=(20, 2)
+        )
 
         # customer address
         self.l_customer_address.grid(row=6, column=0, sticky="ew", pady=2)
@@ -629,13 +631,13 @@ class ReviewInvoices(ttk.Frame):
         self.e_price_of_service.grid(row=9, column=5, sticky="ew", pady=2)
 
         # add service button
-        self.btn_add_service.grid(row=10, column=5, sticky="ew", pady=2)
+        self.btn_add_service.grid(row=10, column=5, sticky="ew", pady=(2, 20))
 
         # list of service
-        self.list_of_services.grid(row=11, column=0, columnspan=6, sticky="ew", pady=20)
+        self.list_of_services.grid(row=11, column=0, columnspan=6, sticky="ew")
 
         # total amount of services
-        self.l_total_amount.grid(row=12, column=4, sticky="ew", pady=2)
+        self.l_total_amount.grid(row=12, column=4, sticky="e", pady=2)
         self.l_total_amount_var.grid(row=12, column=5, sticky="ew", pady=2)
 
         # description
@@ -678,7 +680,7 @@ class Customers(ttk.Frame):
         )
         self.search_results.heading("id", text="ID")
         self.search_results.column("id", minwidth=0, width=40, stretch=False)
-        self.search_results.heading("name", text="Ime/naziv")
+        self.search_results.heading("name", text="IME/NAZIV")
         # type of customer
         self.l_customer_type = ttk.Label(self, text="Vrsta lica", anchor="center")
         self.combo_customer_type = ttk.Combobox(
@@ -718,31 +720,19 @@ class Customers(ttk.Frame):
         self.columnconfigure(1, weight=10)
         self.columnconfigure(2, weight=10)
         # 14 rows
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
-        self.rowconfigure(2, weight=1)
-        self.rowconfigure(3, weight=1)
-        self.rowconfigure(4, weight=1)
-        self.rowconfigure(5, weight=1)
-        self.rowconfigure(6, weight=1)
-        self.rowconfigure(7, weight=1)
-        self.rowconfigure(8, weight=1)
-        self.rowconfigure(9, weight=1)
-        self.rowconfigure(10, weight=1)
-        self.rowconfigure(11, weight=1)
-        self.rowconfigure(12, weight=1)
-        self.rowconfigure(13, weight=1)
+        for _ in range(14):
+            self.rowconfigure(_, weight=1)
 
         # GRID
         # button
         self.btn_customer_new.grid(row=0, column=0, sticky="ew", pady=10)
         # search
-        self.l_search.grid(row=1, column=0, sticky="ew", pady=15)
-        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=15)
+        self.l_search.grid(row=1, column=0, sticky="ew", pady=(15, 2))
+        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=(15, 2))
         # search results
         self.search_results.grid(row=2, column=0, columnspan=3, sticky="ew", pady=2)
         # edit button
-        self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=15)
+        self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=(3, 25))
         # customer type
         self.l_customer_name.grid(row=4, column=0, sticky="ew", pady=2)
         self.e_customer_name.grid(row=4, column=1, columnspan=2, sticky="ew", pady=2)
@@ -762,8 +752,8 @@ class Customers(ttk.Frame):
         self.l_customer_tax_id.grid(row=9, column=0, sticky="ew", pady=2)
         self.e_customer_tax_id.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
         # save and delete
-        self.btn_customer_save.grid(row=10, column=1, sticky="", pady=10)
-        self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=10)
+        self.btn_customer_save.grid(row=10, column=1, sticky="", pady=(10, 0))
+        self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=(10, 0))
         # save or delete label
         self.l_customer_save_or_delete.grid(
             row=11, column=1, columnspan=2, sticky="ew", pady=10
@@ -826,7 +816,9 @@ class Settings(ttk.Frame):
         self.l_company_logo = ttk.Label(self, text="Logo:", anchor="center")
         self.btn_company_logo = ttk.Button(self, text="Odaberi fajl..")
         self.l_company_logo_message = ttk.Label(
-            self, text="Ovde putanja", anchor="center"
+            self,
+            text="Ovde putanja ili mozda u dugmetu gore umesto teksta",
+            anchor="center",
         )
         # save button
         self.btn_save_settings = ttk.Button(self, text="Sačuvaj")
@@ -839,20 +831,8 @@ class Settings(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=20)
         # 14 rows
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
-        self.rowconfigure(2, weight=1)
-        self.rowconfigure(3, weight=1)
-        self.rowconfigure(4, weight=1)
-        self.rowconfigure(5, weight=1)
-        self.rowconfigure(6, weight=1)
-        self.rowconfigure(7, weight=1)
-        self.rowconfigure(8, weight=1)
-        self.rowconfigure(9, weight=1)
-        self.rowconfigure(10, weight=1)
-        self.rowconfigure(11, weight=1)
-        self.rowconfigure(12, weight=1)
-        self.rowconfigure(13, weight=1)
+        for _ in range(14):
+            self.rowconfigure(_, weight=1)
 
         # GRID
         # company name
@@ -890,11 +870,9 @@ class Settings(ttk.Frame):
         self.btn_company_logo.grid(row=10, column=1, sticky="ew", pady=2)
         self.l_company_logo_message.grid(row=11, column=1, sticky="ew", pady=2)
         # save button
-        self.btn_save_settings.grid(row=12, column=1, pady=10)
+        self.btn_save_settings.grid(row=12, column=1, pady=(15, 3))
         self.l_save_settings.grid(row=13, column=1)
 
 
 if __name__ == "__main__":
-    # App("title", (960, 720))
-    # App("title", (960, 300))
     App("Invoice Creator v0.1", (960, 1015))
