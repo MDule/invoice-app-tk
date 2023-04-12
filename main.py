@@ -1,5 +1,5 @@
 """
-Tkinter based invoice software used  for storing invoices in DB and creating PDF
+Tkinter based invoice software used for storing invoices in DB and creating PDF
 invoices.
 
 Author: Dušan Miletić
@@ -66,6 +66,10 @@ class Sidebar(ttk.Frame):
         self.btn_settings = ttk.Button(self, text="Podešavanja")
         self.btn_quit = ttk.Button(self, text="Izlaz")
 
+        # pyxl logo
+        self.pyxl_img = tk.PhotoImage(file="static/pyxl-med-logo-150x57.png")
+        self.l_pyxl_img = ttk.Label(self, image=self.pyxl_img, anchor="center")
+
     def create_layout(self):
         """Places created widgets in the window (from the create_widgets() method)."""
 
@@ -74,6 +78,7 @@ class Sidebar(ttk.Frame):
         self.btn_customers.pack(fill="both")
         self.btn_settings.pack(fill="both")
         self.btn_quit.pack(fill="both")
+        self.l_pyxl_img.pack(fill="both", pady=25)
 
 
 class Invoices(ttk.Frame):
@@ -181,6 +186,9 @@ class Invoices(ttk.Frame):
         self.l_customer_email = ttk.Label(self, text="E-mail:", anchor="center")
         self.e_customer_email = ttk.Entry(self)
 
+        # option to save customer in db
+        self.btn_customer_save_in_db = ttk.Button(self, text="Sačuvaj komitenta")
+
         # type of service
         self.l_type_of_service = ttk.Label(self, text="Vrsta usluge:", anchor="center")
         self.e_type_of_service = ttk.Entry(self)
@@ -257,7 +265,7 @@ class Invoices(ttk.Frame):
             self.columnconfigure(_, weight=1)
 
         # 16 rows
-        for _ in range(16):
+        for _ in range(18):
             self.rowconfigure(_, weight=1)
 
         # GRID
@@ -287,21 +295,21 @@ class Invoices(ttk.Frame):
         )
 
         # invoice date
-        self.l_invoice_date.grid(row=5, column=0, sticky="ew", pady=(2, 20))
-        self.e_invoice_date.grid(row=5, column=1, sticky="ew", pady=(2, 20))
+        self.l_invoice_date.grid(row=5, column=0, sticky="ew", pady=(2, 30))
+        self.e_invoice_date.grid(row=5, column=1, sticky="ew", pady=(2, 30))
 
         # date of purchase
         self.l_invoice_date_of_purchase.grid(
-            row=5, column=2, sticky="ew", pady=(2, 20), ipadx=5
+            row=5, column=2, sticky="ew", pady=(2, 30), ipadx=5
         )
-        self.e_invoice_date_of_purchase.grid(row=5, column=3, sticky="ew", pady=(2, 20))
+        self.e_invoice_date_of_purchase.grid(row=5, column=3, sticky="ew", pady=(2, 30))
 
         # place of purchase (city)
         self.l_invoice_place_of_purchase.grid(
-            row=5, column=4, sticky="ew", pady=(2, 20)
+            row=5, column=4, sticky="ew", pady=(2, 30)
         )
         self.e_invoice_place_of_purchase.grid(
-            row=5, column=5, sticky="ew", pady=(2, 20)
+            row=5, column=5, sticky="ew", pady=(2, 30)
         )
 
         # customer
@@ -328,40 +336,47 @@ class Invoices(ttk.Frame):
         self.l_customer_email.grid(row=8, column=4, sticky="ew", pady=2)
         self.e_customer_email.grid(row=8, column=5, sticky="ew", pady=2)
 
+        # button to save customer in db
+        self.btn_customer_save_in_db.grid(
+            row=9, column=4, columnspan=2, sticky="ew", pady=(2, 30)
+        )
+
         # type of service
-        self.l_type_of_service.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_type_of_service.grid(row=9, column=1, columnspan=5, sticky="ew", pady=2)
+        self.l_type_of_service.grid(row=10, column=0, sticky="ew", pady=2)
+        self.e_type_of_service.grid(row=10, column=1, columnspan=5, sticky="ew", pady=2)
 
         # unit of service
-        self.l_unit_of_service.grid(row=10, column=0, sticky="ew", pady=2)
-        self.e_unit_of_service.grid(row=10, column=1, sticky="ew", pady=2)
+        self.l_unit_of_service.grid(row=11, column=0, sticky="ew", pady=2)
+        self.e_unit_of_service.grid(row=11, column=1, sticky="ew", pady=2)
 
         # quantity
-        self.l_quantity_of_service.grid(row=10, column=2, sticky="ew", pady=2)
-        self.e_quantity_of_service.grid(row=10, column=3, sticky="ew", pady=2)
+        self.l_quantity_of_service.grid(row=11, column=2, sticky="ew", pady=2)
+        self.e_quantity_of_service.grid(row=11, column=3, sticky="ew", pady=2)
 
         # price without VAT
-        self.l_price_of_service.grid(row=10, column=4, sticky="ew", pady=2)
-        self.e_price_of_service.grid(row=10, column=5, sticky="ew", pady=2)
+        self.l_price_of_service.grid(row=11, column=4, sticky="ew", pady=2)
+        self.e_price_of_service.grid(row=11, column=5, sticky="ew", pady=2)
 
         # add service button
-        self.btn_add_service.grid(row=11, column=5, sticky="ew", pady=2)
+        self.btn_add_service.grid(row=12, column=5, sticky="ew", pady=2)
 
         # list of service
-        self.list_of_services.grid(row=12, column=0, columnspan=6, sticky="ew", pady=20)
+        self.list_of_services.grid(
+            row=13, column=0, columnspan=6, sticky="ew", pady=(20, 0)
+        )
 
         # total amount of services
-        self.l_total_amount.grid(row=13, column=4, sticky="ew", pady=2)
-        self.l_total_amount_var.grid(row=13, column=5, sticky="ew", pady=2)
+        self.l_total_amount.grid(row=14, column=4, sticky="e", pady=2)
+        self.l_total_amount_var.grid(row=14, column=5, sticky="ew", pady=2)
 
         # description
-        self.l_desc.grid(row=14, column=0, sticky="ew", pady=2)
-        self.e_desc.grid(row=15, column=0, columnspan=6, sticky="ew", pady=2)
+        self.l_desc.grid(row=15, column=0, columnspan=2, sticky="w", pady=2)
+        self.e_desc.grid(row=16, column=0, columnspan=6, sticky="ew", pady=2)
 
         # buttons save and print
-        self.btn_invoice_save_db.grid(row=16, column=3, sticky="ew", pady=10, ipadx=3)
-        self.btn_invoice_save_pdf.grid(row=16, column=4, sticky="ew", pady=10, ipadx=3)
-        self.btn_invoice_print.grid(row=16, column=5, sticky="ew", pady=10)
+        self.btn_invoice_save_db.grid(row=17, column=3, sticky="ew", pady=10, ipadx=3)
+        self.btn_invoice_save_pdf.grid(row=17, column=4, sticky="ew", pady=10, ipadx=3)
+        self.btn_invoice_print.grid(row=17, column=5, sticky="ew", pady=10)
 
 
 class ReviewInvoices(ttk.Frame):
