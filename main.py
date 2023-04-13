@@ -12,6 +12,7 @@ import tkinter as tk
 # from tkcalendar import DateEntry as ttkDateEntry
 from layout import Sidebar, Invoices, ReviewInvoices, Customers, Settings
 
+
 # from tkinter import filedialog as fd ## for logo filedialog
 
 
@@ -36,7 +37,10 @@ class App(tk.Tk):
         self.invoices = Invoices(self)
 
         # define commands for buttons
-        # self.sidebar.btn_quit.configure(command=lambda: self.settings.destroy())
+        # self.sidebar.btn_invoice_new.configure(
+        #     command=self.invoices.pack)
+
+        # self.sidebar.btn_quit.configure(command=self.invoices.pla)
         # self.sidebar.btn_settings.configure(
         #     command=lambda: self.settings.__init__(self)
         # )
