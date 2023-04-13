@@ -74,6 +74,11 @@ class Invoices(ttk.Frame):
         """Create widgets in Review Invoices window. Does not place them in the window. To place
         widgets, call create_layout() method."""
 
+        # invoice title
+        self.l_invoice = ttk.Label(
+            self, text="NOVA FAKTURA", anchor="center", font=("Segoe UI", 14, "bold")
+        )
+
         # customer in db
         self.l_customer_in_db = ttk.Label(
             self, text="Komitent je u bazi:", anchor="center"
@@ -240,118 +245,122 @@ class Invoices(ttk.Frame):
             self.columnconfigure(_, weight=1)
 
         # 16 rows
-        for _ in range(18):
+        for _ in range(19):
             self.rowconfigure(_, weight=1)
 
         # GRID
+
+        # new invoice title
+        self.l_invoice.grid(row=0, column=0, columnspan=6, sticky="ew", pady=2)
+
         # customer in base
-        self.l_customer_in_db.grid(row=0, column=0, sticky="ew", pady=2)
-        self.combo_customer_in_db.grid(row=0, column=1, sticky="ew", pady=2)
+        self.l_customer_in_db.grid(row=1, column=0, sticky="ew", pady=2)
+        self.combo_customer_in_db.grid(row=1, column=1, sticky="ew", pady=2)
 
         # search
-        self.l_customer_search_db.grid(row=1, column=0, sticky="ew", pady=2)
+        self.l_customer_search_db.grid(row=2, column=0, sticky="ew", pady=2)
         self.e_customer_search_db.grid(
-            row=1, column=1, columnspan=5, sticky="ew", pady=2
+            row=2, column=1, columnspan=5, sticky="ew", pady=2
         )
 
         # search results
         self.customer_search_db_results.grid(
-            row=2, column=0, columnspan=6, sticky="ew", pady=5
+            row=3, column=0, columnspan=6, sticky="ew", pady=5
         )
         self.btn_select_customer_from_db.grid(
-            row=3, column=5, sticky="ew", pady=(5, 15)
+            row=4, column=5, sticky="ew", pady=(5, 15)
         )
 
         # invoice id
-        self.l_invoice_id.grid(row=4, column=0, sticky="", pady=2)
-        self.e_invoice_id.grid(row=4, column=1, sticky="ew", pady=2)
+        self.l_invoice_id.grid(row=5, column=0, sticky="", pady=2)
+        self.e_invoice_id.grid(row=5, column=1, sticky="ew", pady=2)
         self.l_invoice_id_check.grid(
-            row=4, column=2, columnspan=4, sticky="w", pady=2, ipadx=5
+            row=5, column=2, columnspan=4, sticky="w", pady=2, ipadx=5
         )
 
         # invoice date
-        self.l_invoice_date.grid(row=5, column=0, sticky="ew", pady=(2, 30))
-        self.e_invoice_date.grid(row=5, column=1, sticky="ew", pady=(2, 30))
+        self.l_invoice_date.grid(row=6, column=0, sticky="ew", pady=(2, 30))
+        self.e_invoice_date.grid(row=6, column=1, sticky="ew", pady=(2, 30))
 
         # date of purchase
         self.l_invoice_date_of_purchase.grid(
-            row=5, column=2, sticky="ew", pady=(2, 30), ipadx=5
+            row=6, column=2, sticky="ew", pady=(2, 30), ipadx=5
         )
-        self.e_invoice_date_of_purchase.grid(row=5, column=3, sticky="ew", pady=(2, 30))
+        self.e_invoice_date_of_purchase.grid(row=6, column=3, sticky="ew", pady=(2, 30))
 
         # place of purchase (city)
         self.l_invoice_place_of_purchase.grid(
-            row=5, column=4, sticky="ew", pady=(2, 30)
+            row=6, column=4, sticky="ew", pady=(2, 30)
         )
         self.e_invoice_place_of_purchase.grid(
-            row=5, column=5, sticky="ew", pady=(2, 30)
+            row=6, column=5, sticky="ew", pady=(2, 30)
         )
 
         # customer
-        self.l_customer_name.grid(row=6, column=0, sticky="ew", pady=2)
-        self.e_customer_name.grid(row=6, column=1, columnspan=5, sticky="ew", pady=2)
+        self.l_customer_name.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_customer_name.grid(row=7, column=1, columnspan=5, sticky="ew", pady=2)
 
         # customer address
-        self.l_customer_address.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_customer_address.grid(row=7, column=1, columnspan=3, sticky="ew", pady=2)
+        self.l_customer_address.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_customer_address.grid(row=8, column=1, columnspan=3, sticky="ew", pady=2)
 
         # customer city
-        self.l_customer_city.grid(row=7, column=4, sticky="ew", pady=2)
-        self.e_customer_city.grid(row=7, column=5, sticky="ew", pady=2)
+        self.l_customer_city.grid(row=8, column=4, sticky="ew", pady=2)
+        self.e_customer_city.grid(row=8, column=5, sticky="ew", pady=2)
 
         # customer id no
-        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_customer_id_no.grid(row=8, column=1, sticky="ew", pady=2)
+        self.l_customer_id_no.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_customer_id_no.grid(row=9, column=1, sticky="ew", pady=2)
 
         # customer tax id
-        self.l_customer_tax_id.grid(row=8, column=2, sticky="ew", pady=2)
-        self.e_customer_tax_id.grid(row=8, column=3, sticky="ew", pady=2)
+        self.l_customer_tax_id.grid(row=9, column=2, sticky="ew", pady=2)
+        self.e_customer_tax_id.grid(row=9, column=3, sticky="ew", pady=2)
 
         # customer email
-        self.l_customer_email.grid(row=8, column=4, sticky="ew", pady=2)
-        self.e_customer_email.grid(row=8, column=5, sticky="ew", pady=2)
+        self.l_customer_email.grid(row=9, column=4, sticky="ew", pady=2)
+        self.e_customer_email.grid(row=9, column=5, sticky="ew", pady=2)
 
         # button to save customer in db
         self.btn_customer_save_in_db.grid(
-            row=9, column=4, columnspan=2, sticky="ew", pady=(2, 30)
+            row=10, column=4, columnspan=2, sticky="ew", pady=(2, 30)
         )
 
         # type of service
-        self.l_type_of_service.grid(row=10, column=0, sticky="ew", pady=2)
-        self.e_type_of_service.grid(row=10, column=1, columnspan=5, sticky="ew", pady=2)
+        self.l_type_of_service.grid(row=11, column=0, sticky="ew", pady=2)
+        self.e_type_of_service.grid(row=11, column=1, columnspan=5, sticky="ew", pady=2)
 
         # unit of service
-        self.l_unit_of_service.grid(row=11, column=0, sticky="ew", pady=2)
-        self.e_unit_of_service.grid(row=11, column=1, sticky="ew", pady=2)
+        self.l_unit_of_service.grid(row=12, column=0, sticky="ew", pady=2)
+        self.e_unit_of_service.grid(row=12, column=1, sticky="ew", pady=2)
 
         # quantity
-        self.l_quantity_of_service.grid(row=11, column=2, sticky="ew", pady=2)
-        self.e_quantity_of_service.grid(row=11, column=3, sticky="ew", pady=2)
+        self.l_quantity_of_service.grid(row=12, column=2, sticky="ew", pady=2)
+        self.e_quantity_of_service.grid(row=12, column=3, sticky="ew", pady=2)
 
         # price without VAT
-        self.l_price_of_service.grid(row=11, column=4, sticky="ew", pady=2)
-        self.e_price_of_service.grid(row=11, column=5, sticky="ew", pady=2)
+        self.l_price_of_service.grid(row=12, column=4, sticky="ew", pady=2)
+        self.e_price_of_service.grid(row=12, column=5, sticky="ew", pady=2)
 
         # add service button
-        self.btn_add_service.grid(row=12, column=5, sticky="ew", pady=2)
+        self.btn_add_service.grid(row=13, column=5, sticky="ew", pady=2)
 
         # list of service
         self.list_of_services.grid(
-            row=13, column=0, columnspan=6, sticky="ew", pady=(20, 0)
+            row=14, column=0, columnspan=6, sticky="ew", pady=(20, 0)
         )
 
         # total amount of services
-        self.l_total_amount.grid(row=14, column=4, sticky="e", pady=2)
-        self.l_total_amount_var.grid(row=14, column=5, sticky="ew", pady=2)
+        self.l_total_amount.grid(row=15, column=4, sticky="e", pady=2)
+        self.l_total_amount_var.grid(row=15, column=5, sticky="ew", pady=2)
 
         # description
-        self.l_desc.grid(row=15, column=0, columnspan=2, sticky="w", pady=2)
-        self.e_desc.grid(row=16, column=0, columnspan=6, sticky="ew", pady=2)
+        self.l_desc.grid(row=16, column=0, columnspan=2, sticky="w", pady=2)
+        self.e_desc.grid(row=17, column=0, columnspan=6, sticky="ew", pady=2)
 
         # buttons save and print
-        self.btn_invoice_save_db.grid(row=17, column=3, sticky="ew", pady=10, ipadx=3)
-        self.btn_invoice_save_pdf.grid(row=17, column=4, sticky="ew", pady=10, ipadx=3)
-        self.btn_invoice_print.grid(row=17, column=5, sticky="ew", pady=10)
+        self.btn_invoice_save_db.grid(row=18, column=3, sticky="ew", pady=10, ipadx=3)
+        self.btn_invoice_save_pdf.grid(row=18, column=4, sticky="ew", pady=10, ipadx=3)
+        self.btn_invoice_print.grid(row=18, column=5, sticky="ew", pady=10)
 
 
 class ReviewInvoices(ttk.Frame):
@@ -372,6 +381,10 @@ class ReviewInvoices(ttk.Frame):
         """Create widgets in Review Invoices window. Does not place them in the window. To place
         widgets, call create_layout() method."""
 
+        # review invoices title
+        self.l_review_invoices = ttk.Label(
+            self, text="PREGLED FAKTURA", anchor="center", font=("Segoe UI", 14, "bold")
+        )
         # search for invoices by name, invoice id, date -disabled by default
         self.l_search = ttk.Label(self, text="Pretraži:", anchor="center")
         self.e_search = ttk.Entry(self)
@@ -527,102 +540,108 @@ class ReviewInvoices(ttk.Frame):
             self.columnconfigure(_, weight=1)
 
         # 16 rows
-        for _ in range(16):
+        for _ in range(17):
             self.rowconfigure(_, weight=1)
 
         # GRID
+
+        # review invoices title
+        self.l_review_invoices.grid(
+            row=0, column=0, columnspan=6, sticky="ew", pady=(5, 3)
+        )
+
         # search entry
-        self.l_search.grid(row=0, column=0, sticky="ew", pady=(5, 3))
-        self.e_search.grid(row=0, column=1, columnspan=5, sticky="ew", pady=(5, 3))
+        self.l_search.grid(row=1, column=0, sticky="ew", pady=(5, 3))
+        self.e_search.grid(row=1, column=1, columnspan=5, sticky="ew", pady=(5, 3))
 
         # search results
-        self.search_results.grid(row=1, column=0, columnspan=6, sticky="ew")
+        self.search_results.grid(row=2, column=0, columnspan=6, sticky="ew")
 
         # buttons - edit or delete
-        self.btn_invoice_edit.grid(row=2, column=4, sticky="ew", pady=(3, 15))
-        self.btn_invoice_delete.grid(row=2, column=5, sticky="ew", pady=(3, 15))
+        self.btn_invoice_edit.grid(row=3, column=4, sticky="ew", pady=(3, 15))
+        self.btn_invoice_delete.grid(row=3, column=5, sticky="ew", pady=(3, 15))
 
         # invoice id
-        self.l_invoice_id.grid(row=3, column=0, sticky="", pady=2)
-        self.e_invoice_id.grid(row=3, column=1, sticky="", pady=2)
+        self.l_invoice_id.grid(row=4, column=0, sticky="", pady=2)
+        self.e_invoice_id.grid(row=4, column=1, sticky="", pady=2)
         self.l_invoice_id_check.grid(
-            row=3, column=2, columnspan=4, sticky="w", pady=2, ipadx=5
+            row=4, column=2, columnspan=4, sticky="w", pady=2, ipadx=5
         )
 
         # invoice date
-        self.l_invoice_date.grid(row=4, column=0, sticky="ew", pady=2)
-        self.e_invoice_date.grid(row=4, column=1, sticky="ew", pady=2)
+        self.l_invoice_date.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_invoice_date.grid(row=5, column=1, sticky="ew", pady=2)
 
         # date of purchase
-        self.l_invoice_date_of_purchase.grid(row=4, column=2, sticky="ew", pady=2)
-        self.e_invoice_date_of_purchase.grid(row=4, column=3, sticky="ew", pady=2)
+        self.l_invoice_date_of_purchase.grid(row=5, column=2, sticky="ew", pady=2)
+        self.e_invoice_date_of_purchase.grid(row=5, column=3, sticky="ew", pady=2)
 
         # place of purchase
-        self.l_invoice_place_of_purchase.grid(row=4, column=4, sticky="ew", pady=2)
+        self.l_invoice_place_of_purchase.grid(row=5, column=4, sticky="ew", pady=2)
         self.e_invoice_place_of_purchase.grid(
-            row=4, column=5, columnspan=2, sticky="ew", pady=2
+            row=5, column=5, columnspan=2, sticky="ew", pady=2
         )
 
         # customer
-        self.l_customer_name.grid(row=5, column=0, sticky="ew", pady=(20, 2))
+        self.l_customer_name.grid(row=6, column=0, sticky="ew", pady=(20, 2))
         self.e_customer_name.grid(
-            row=5, column=1, columnspan=5, sticky="ew", pady=(20, 2)
+            row=6, column=1, columnspan=5, sticky="ew", pady=(20, 2)
         )
 
         # customer address
-        self.l_customer_address.grid(row=6, column=0, sticky="ew", pady=2)
-        self.e_customer_address.grid(row=6, column=1, columnspan=3, sticky="ew", pady=2)
+        self.l_customer_address.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_customer_address.grid(row=7, column=1, columnspan=3, sticky="ew", pady=2)
 
         # customer city
-        self.l_customer_city.grid(row=6, column=4, sticky="ew", pady=2)
-        self.e_customer_city.grid(row=6, column=5, sticky="ew", pady=2)
+        self.l_customer_city.grid(row=7, column=4, sticky="ew", pady=2)
+        self.e_customer_city.grid(row=7, column=5, sticky="ew", pady=2)
 
         # customer id no
-        self.l_customer_id_no.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_customer_id_no.grid(row=7, column=1, sticky="ew", pady=2)
+        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_customer_id_no.grid(row=8, column=1, sticky="ew", pady=2)
 
         # customer tax id
-        self.l_customer_tax_id.grid(row=7, column=2, sticky="ew", pady=2)
-        self.e_customer_tax_id.grid(row=7, column=3, sticky="ew", pady=2)
+        self.l_customer_tax_id.grid(row=8, column=2, sticky="ew", pady=2)
+        self.e_customer_tax_id.grid(row=8, column=3, sticky="ew", pady=2)
 
         # customer email
-        self.l_customer_email.grid(row=7, column=4, sticky="ew", pady=2)
-        self.e_customer_email.grid(row=7, column=5, sticky="ew", pady=2)
+        self.l_customer_email.grid(row=8, column=4, sticky="ew", pady=2)
+        self.e_customer_email.grid(row=8, column=5, sticky="ew", pady=2)
 
         # type of service
-        self.l_type_of_service.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_type_of_service.grid(row=8, column=1, columnspan=5, sticky="ew", pady=2)
+        self.l_type_of_service.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_type_of_service.grid(row=9, column=1, columnspan=5, sticky="ew", pady=2)
 
         # unit of service
-        self.l_unit_of_service.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_unit_of_service.grid(row=9, column=1, sticky="ew", pady=2)
+        self.l_unit_of_service.grid(row=10, column=0, sticky="ew", pady=2)
+        self.e_unit_of_service.grid(row=10, column=1, sticky="ew", pady=2)
 
         # quantity
-        self.l_quantity_of_service.grid(row=9, column=2, sticky="ew", pady=2)
-        self.e_quantity_of_service.grid(row=9, column=3, sticky="ew", pady=2)
+        self.l_quantity_of_service.grid(row=10, column=2, sticky="ew", pady=2)
+        self.e_quantity_of_service.grid(row=10, column=3, sticky="ew", pady=2)
 
         # price without VAT
-        self.l_price_of_service.grid(row=9, column=4, sticky="ew", pady=2)
-        self.e_price_of_service.grid(row=9, column=5, sticky="ew", pady=2)
+        self.l_price_of_service.grid(row=10, column=4, sticky="ew", pady=2)
+        self.e_price_of_service.grid(row=10, column=5, sticky="ew", pady=2)
 
         # add service button
-        self.btn_add_service.grid(row=10, column=5, sticky="ew", pady=(2, 20))
+        self.btn_add_service.grid(row=11, column=5, sticky="ew", pady=(2, 20))
 
         # list of service
-        self.list_of_services.grid(row=11, column=0, columnspan=6, sticky="ew")
+        self.list_of_services.grid(row=12, column=0, columnspan=6, sticky="ew")
 
         # total amount of services
-        self.l_total_amount.grid(row=12, column=4, sticky="e", pady=2)
-        self.l_total_amount_var.grid(row=12, column=5, sticky="ew", pady=2)
+        self.l_total_amount.grid(row=13, column=4, sticky="e", pady=2)
+        self.l_total_amount_var.grid(row=13, column=5, sticky="ew", pady=2)
 
         # description
-        self.l_desc.grid(row=13, column=0, sticky="ew", pady=2)
-        self.e_desc.grid(row=14, column=0, columnspan=6, sticky="ew", pady=2)
+        self.l_desc.grid(row=14, column=0, sticky="ew", pady=2)
+        self.e_desc.grid(row=15, column=0, columnspan=6, sticky="ew", pady=2)
 
         # buttons save and print
-        self.btn_invoice_save_db.grid(row=15, column=3, sticky="ew", pady=10)
-        self.btn_invoice_save_pdf.grid(row=15, column=4, sticky="ew", pady=10)
-        self.btn_invoice_print.grid(row=15, column=5, sticky="ew", pady=10)
+        self.btn_invoice_save_db.grid(row=16, column=3, sticky="ew", pady=10)
+        self.btn_invoice_save_pdf.grid(row=16, column=4, sticky="ew", pady=10)
+        self.btn_invoice_print.grid(row=16, column=5, sticky="ew", pady=10)
 
 
 class Customers(ttk.Frame):
@@ -636,6 +655,7 @@ class Customers(ttk.Frame):
 
         # create widgets
         self.create_widgets()
+
         # place widgets in window
         self.create_layout()
 
@@ -643,6 +663,10 @@ class Customers(ttk.Frame):
         """Create sidebar widgets. Does not place them in the window. To place
         widgets, call create_layout() method."""
 
+        # customers title
+        self.l_customers = ttk.Label(
+            self, text="KOMITENTI", anchor="center", font=("Segoe UI", 14, "bold")
+        )
         # buttons - 'new customer' and 'edit customer'
         self.btn_customer_new = ttk.Button(self, text="Unos novog komitenta")
         self.btn_customer_edit = ttk.Button(self, text="Izmeni/obriši komitenta")
@@ -695,43 +719,45 @@ class Customers(ttk.Frame):
         self.columnconfigure(1, weight=10)
         self.columnconfigure(2, weight=10)
         # 14 rows
-        for _ in range(14):
+        for _ in range(13):
             self.rowconfigure(_, weight=1)
 
         # GRID
+        # customers title
+        self.l_customers.grid(row=0, column=0, columnspan=3, sticky="ew", pady=2)
         # button
-        self.btn_customer_new.grid(row=0, column=0, sticky="ew", pady=10)
+        self.btn_customer_new.grid(row=1, column=0, sticky="ew", pady=10)
         # search
-        self.l_search.grid(row=1, column=0, sticky="ew", pady=(15, 2))
-        self.e_search.grid(row=1, column=1, columnspan=2, sticky="ew", pady=(15, 2))
+        self.l_search.grid(row=2, column=0, sticky="ew", pady=(15, 2))
+        self.e_search.grid(row=2, column=1, columnspan=2, sticky="ew", pady=(15, 2))
         # search results
-        self.search_results.grid(row=2, column=0, columnspan=3, sticky="ew", pady=2)
+        self.search_results.grid(row=3, column=0, columnspan=3, sticky="ew", pady=2)
         # edit button
-        self.btn_customer_edit.grid(row=3, column=2, sticky="", pady=(3, 25))
+        self.btn_customer_edit.grid(row=4, column=2, sticky="", pady=(3, 25))
         # customer type
-        self.l_customer_name.grid(row=4, column=0, sticky="ew", pady=2)
-        self.e_customer_name.grid(row=4, column=1, columnspan=2, sticky="ew", pady=2)
+        self.l_customer_name.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_customer_name.grid(row=5, column=1, columnspan=2, sticky="ew", pady=2)
         # customer address
-        self.l_customer_address.grid(row=5, column=0, sticky="ew", pady=2)
-        self.e_customer_address.grid(row=5, column=1, columnspan=2, sticky="ew", pady=2)
+        self.l_customer_address.grid(row=6, column=0, sticky="ew", pady=2)
+        self.e_customer_address.grid(row=6, column=1, columnspan=2, sticky="ew", pady=2)
         # city
-        self.l_customer_city.grid(row=6, column=0, sticky="ew", pady=2)
-        self.e_customer_city.grid(row=6, column=1, columnspan=2, sticky="ew", pady=2)
+        self.l_customer_city.grid(row=7, column=0, sticky="ew", pady=2)
+        self.e_customer_city.grid(row=7, column=1, columnspan=2, sticky="ew", pady=2)
         # email
-        self.l_customer_email.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_customer_email.grid(row=7, column=1, columnspan=2, sticky="ew", pady=2)
+        self.l_customer_email.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_customer_email.grid(row=8, column=1, columnspan=2, sticky="ew", pady=2)
         # ID
-        self.l_customer_id_no.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_customer_id_no.grid(row=8, column=1, columnspan=2, sticky="ew", pady=2)
+        self.l_customer_id_no.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_customer_id_no.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
         # tax id
-        self.l_customer_tax_id.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_customer_tax_id.grid(row=9, column=1, columnspan=2, sticky="ew", pady=2)
+        self.l_customer_tax_id.grid(row=10, column=0, sticky="ew", pady=2)
+        self.e_customer_tax_id.grid(row=10, column=1, columnspan=2, sticky="ew", pady=2)
         # save and delete
-        self.btn_customer_save.grid(row=10, column=1, sticky="", pady=(10, 0))
-        self.btn_customer_delete.grid(row=10, column=2, sticky="", pady=(10, 0))
+        self.btn_customer_save.grid(row=11, column=1, sticky="", pady=(10, 0))
+        self.btn_customer_delete.grid(row=11, column=2, sticky="", pady=(10, 0))
         # save or delete label
         self.l_customer_save_or_delete.grid(
-            row=11, column=1, columnspan=2, sticky="ew", pady=10
+            row=12, column=1, columnspan=2, sticky="ew", pady=10
         )
 
 
@@ -753,6 +779,10 @@ class Settings(ttk.Frame):
         """Create sidebar widgets. Does not place them in the window. To place
         widgets, call create_layout() method."""
 
+        # settings label
+        self.l_settings = ttk.Label(
+            self, text="PODEŠAVANJA", anchor="center", font=("Segoe UI", 12, "bold")
+        )
         # company name
         self.l_company_name = ttk.Label(self, text="Naziv firme:", anchor="center")
         self.e_company_name = ttk.Entry(self)
@@ -806,44 +836,46 @@ class Settings(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=20)
         # 14 rows
-        for _ in range(14):
+        for _ in range(15):
             self.rowconfigure(_, weight=1)
 
         # GRID
+        # settings title
+        self.l_settings.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(2, 15))
         # company name
-        self.l_company_name.grid(row=0, column=0, sticky="ew", pady=2)
-        self.e_company_name.grid(row=0, column=1, sticky="ew", pady=2)
+        self.l_company_name.grid(row=1, column=0, sticky="ew", pady=2)
+        self.e_company_name.grid(row=1, column=1, sticky="ew", pady=2)
         # company address
-        self.l_company_address.grid(row=1, column=0, sticky="ew", pady=2)
-        self.e_company_address.grid(row=1, column=1, sticky="ew", pady=2)
+        self.l_company_address.grid(row=2, column=0, sticky="ew", pady=2)
+        self.e_company_address.grid(row=2, column=1, sticky="ew", pady=2)
         # city
-        self.l_company_city.grid(row=2, column=0, sticky="ew", pady=2)
-        self.e_company_city.grid(row=2, column=1, sticky="ew", pady=2)
+        self.l_company_city.grid(row=3, column=0, sticky="ew", pady=2)
+        self.e_company_city.grid(row=3, column=1, sticky="ew", pady=2)
         # email
-        self.l_company_email.grid(row=3, column=0, sticky="ew", pady=2)
-        self.e_company_email.grid(row=3, column=1, sticky="ew", pady=2)
+        self.l_company_email.grid(row=4, column=0, sticky="ew", pady=2)
+        self.e_company_email.grid(row=4, column=1, sticky="ew", pady=2)
         # company ID
-        self.l_company_id.grid(row=4, column=0, sticky="ew", pady=2)
-        self.e_company_id.grid(row=4, column=1, sticky="ew", pady=2)
+        self.l_company_id.grid(row=5, column=0, sticky="ew", pady=2)
+        self.e_company_id.grid(row=5, column=1, sticky="ew", pady=2)
         # company vat no
-        self.l_company_tax_id.grid(row=5, column=0, sticky="ew", pady=2)
-        self.e_company_tax_id.grid(row=5, column=1, sticky="ew", pady=2)
+        self.l_company_tax_id.grid(row=6, column=0, sticky="ew", pady=2)
+        self.e_company_tax_id.grid(row=6, column=1, sticky="ew", pady=2)
         # vat system user
-        self.l_company_vat.grid(row=6, column=0, sticky="ew", pady=2)
-        self.combo_company_vat.grid(row=6, column=1, sticky="w", pady=2)
+        self.l_company_vat.grid(row=7, column=0, sticky="ew", pady=2)
+        self.combo_company_vat.grid(row=7, column=1, sticky="w", pady=2)
         # bank name
-        self.l_company_bank_name.grid(row=7, column=0, sticky="ew", pady=2)
-        self.e_company_bank_name.grid(row=7, column=1, sticky="ew", pady=2)
+        self.l_company_bank_name.grid(row=8, column=0, sticky="ew", pady=2)
+        self.e_company_bank_name.grid(row=8, column=1, sticky="ew", pady=2)
         # bank account number RSD
-        self.l_company_bank_rsd.grid(row=8, column=0, sticky="ew", pady=2)
-        self.e_company_bank_rsd.grid(row=8, column=1, sticky="ew", pady=2)
+        self.l_company_bank_rsd.grid(row=9, column=0, sticky="ew", pady=2)
+        self.e_company_bank_rsd.grid(row=9, column=1, sticky="ew", pady=2)
         # bank account number EUR
-        self.l_company_bank_eur.grid(row=9, column=0, sticky="ew", pady=2)
-        self.e_company_bank_eur.grid(row=9, column=1, sticky="ew", pady=2)
+        self.l_company_bank_eur.grid(row=10, column=0, sticky="ew", pady=2)
+        self.e_company_bank_eur.grid(row=10, column=1, sticky="ew", pady=2)
         # company logo
-        self.l_company_logo.grid(row=10, column=0, sticky="ew", pady=2)
-        self.btn_company_logo.grid(row=10, column=1, sticky="ew", pady=2)
-        self.l_company_logo_message.grid(row=11, column=1, sticky="ew", pady=2)
+        self.l_company_logo.grid(row=11, column=0, sticky="ew", pady=2)
+        self.btn_company_logo.grid(row=11, column=1, sticky="ew", pady=2)
+        self.l_company_logo_message.grid(row=12, column=1, sticky="ew", pady=2)
         # save button
-        self.btn_save_settings.grid(row=12, column=1, pady=(15, 3))
-        self.l_save_settings.grid(row=13, column=1)
+        self.btn_save_settings.grid(row=13, column=1, pady=(15, 3))
+        self.l_save_settings.grid(row=14, column=1)
